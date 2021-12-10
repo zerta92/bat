@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<head>
+  <title>{{ title }}</title>
+</head>
+
+<body>
+  <h1>PLANT HELPLINE</h1>
+  <h2>The date and time on the server is: {{ time }}</h2>
+  <h2> {{ text }} </h2>
+  <a href="/auto/water/ON"><button>Turn ON Auto Watering</button></a>
+  <a href="/auto/water/OFF"><button>Turn OFF Auto Watering</button></a>
+  <a href="/sensor"><button>Check Soil Status</button></a> <br>
+  <a href="/sensor2"><button>Soil Reading</button></a>  
+  <a href="/water"><button>Water Once</button></a>
+  <a href="/last_watered"><button>Check Time Last Watered</button></a>
+  soil humidity reading: <div id='test'>0</div><br>
+  <script>
+   
+
+
+
+    setInterval(()=>{
+      fetch(`/sensor2`).then((resp) => {
+            return resp.json()
+          }).then(function(response) {
+              document.getElementById('test').innerHTML =response.text;
+          })
+    }, 1000);
+  </script>
+
+</body>
+
+</html>
