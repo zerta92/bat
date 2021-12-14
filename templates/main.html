@@ -1,31 +1,371 @@
 <!DOCTYPE html>
 <head>
   <title>{{ title }}</title>
+  <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+  <style>
+
+    /* {
+        box-sizing: border-box;
+    } */
+
+    header{
+        overflow: hidden;
+    }
+
+    #top-header{
+        text-align: center;
+        height: 60 px;
+    }
+
+    #logo{
+        float: left;
+        padding: none;
+        margin: none;
+        height: 60 px;
+        width: 30%
+    }
+
+    #logo img{
+        width: 60%;
+        float: left;
+        padding: 10 px 0 px;
+    }
+
+    /***************************/
+/* Styling Navigation Menu */
+/***************************/
+#menu{
+    float: right;
+    width: 70%;
+    height: 100%;
+    margin: none;
+}
+     
+#menu ul{
+    text-align: center;
+    float: right;
+    margin: none;
+    background: #6be4b5;
+}
+     
+#menu li{
+    display: inline-block;
+    padding: none;
+    margin: none;
+}
+     
+#menu li a, #menu li span{
+    display: inline-block;
+    padding: 0em 1.5em;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    line-height: 60px;
+}
+     
+#menu li a{
+         
+    color: #FFF;
+}
+     
+#menu li:hover a, #menu li span{
+    background: #FFF;
+    color: #0074D9;
+    border-left: 1px solid #0074D9;
+    text-decoration: none;
+}
+
+    #header-image-menu {
+        top: 10 px;
+        position: relative;
+    }
+
+    #header-image-menu img{
+        width: 100%;
+        margin: none;
+        padding: none;
+    }
+
+    #image-text{
+        position: absolute;
+        top: 60%;
+        left: 60%;
+        font-family: 'Roboto';
+        color: #000;
+        transform: translate(-30%, -30%);
+        text-align: center;
+    }
+
+    /**********************************/
+/* Styling Main content Section 1 */
+/**********************************/
+#welcome
+{   overflow: hidden;
+    width: 1000px;
+    margin: 0px auto;
+
+}
+         
+#welcome .title1{
+  position:relative;
+  /*as px increases text moves left as px decreases text moves right*/
+  
+  right:224px;
+  text-align:center;
+
+  
+
+}
+
+    #welcome .title2 {
+        position:relative;
+        left:60px;/*as px increases text moves right as px decreases text moves left*/
+      
+    }
+    #welcome .title3 {
+      position:relative;
+      left:110px;
+    }
+ 
+#welcome p{
+    margin-bottom: 40px;
+    text-align: center;
+
+}
+
+
+.column {
+    float: left;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow:hidden;
+    align-items:center;
+    justify-content: center;
+    position: relative;
+
+
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+
+.button {     
+    background: rgba(255, 165, 0, 0.73);
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;       
+} 
+
+</style>
+    <!-- Top header menu containing
+        logo and Navigation bar -->
+        <div id="top-header">
+             
+          <!-- Logo -->
+          <div id="logo">
+              <img src="static/BATlogo.png" width = "250" height = "130">
+            </div> 
+                   
+          <!-- Navigation Menu -->
+          <nav>
+              <div id="menu">
+              <ul>
+                  <li class="active"><a href="#">Home</a></li>
+                  <li><a href="#">Pothos</a></li>
+                  <li><a href="#">Milkweed</a></li>
+              </ul>
+            </div>
+          </nav>
+      </div>   
+   
+      <!-- Stream example Header to contain an Image (for now) and
+          a sample text over that image 
+      <div id="header-image-menu">
+          <img src="images/image.jpg" width = "100" height = "200>
+          <h2 id = "image-txt">
+              Pothos Plant ID
+          </h2>
+      </div> -->     
 </head>
 
 <body>
-  <h1>PLANT HELPLINE</h1>
-  <h2>The date and time on the server is: {{ time }}</h2>
-  <h2> {{ text }} </h2>
-  <a href="/auto/water/ON"><button>Turn ON Auto Watering</button></a>
+  <section>
+    <div id = "welcome">
+        <h1 class = "title1">POTHOS</h1>
+        <h2 class = "title2">The date and time on the server is: {{ time }}</h2>
+        <h2 class = "title3">The last time watered is {{ text }} </h2>
+    </div> 
+  </section>
+
+
+    <!-- lets implement 2-column layout, called row, for buttons as is on poster -->
+    <section class="container" id="section-2">
+      <div class = "row"> 
+          <div class = "column" style="background-color: #95fff6">
+              <div class = "column-title">
+                      <a href="/camera"><button style="background-color: transparent;" type="button">Open Camera Feed</button></a>
+              </div>
+              <br>
+          </div>
+  
+          <div class = "column" style="background-color: #95fff6">
+            <div class = "column-title">
+                <div class = "button">
+                    <a href="/"><button style="background-color: transparent;" type="button">Open Camera Library</button></a>
+                </div>
+            </div>
+            <br> 
+        </div>        
+  <!-- <a href="/auto/water/ON"><button>Turn ON Auto Watering</button></a>
   <a href="/auto/water/OFF"><button>Turn OFF Auto Watering</button></a>
   <a href="/sensor"><button>Check Soil Status</button></a> <br>
   <a href="/sensor2"><button>Soil Reading</button></a>  
   <a href="/water"><button>Water Once</button></a>
   <a href="/last_watered"><button>Check Time Last Watered</button></a>
   soil humidity reading: <div id='test'>0</div><br>
-  <script>
-   
+  
+-->
+<div id='humidity' style="color: red;">0</div>
 
+<div class = "row"> 
+  <div class = "column" style="background-color: #efbbff">
+      <div class = "column-title">
+          <a href="/auto/water/ON"><button style="background-color: transparent;" type="button">Turn ON <b>Auto Watering</b></button></a>
+      </div>
+
+  </div>
+
+  <div class = "column" style="background-color: #efbbff">
+      <div class = "column-title">
+          <a href="/auto/water/OFF"><button style="background-color: transparent;" type="button">Turn OFF <b>Auto Watering</b></button></a>
+      </div>
+  </div>
+
+
+  <div class = "row"> 
+      <div class = "column" style="background-color: #FFB695">
+          <div class = "column-title">
+              <a href="/sensor"><button style="background-color: transparent;" type="button">Check Soil Status</button></a> 
+          </div>
+
+      </div>
+
+      <div class = "column" style="background-color: #45928d">
+          <div class = "column-title">
+              <a href="/water"><button style="background-color: transparent;" type="button">Water Once</button></a>
+          </div>
+      </div>
+
+
+      <div class = "row"> 
+          <div class = "column" style="background-color: #cead42">
+              <div class = "column-title">
+                  <a href="/last_watered"><button style="background-color: transparent;" type="button">Check Time Last Watered</button></a>
+              </div>
+
+          </div>
+
+          <div class = "column" style="background-color: #e3ffa2">
+              <div class = "column-title">
+                  <a href="/"><button style="background-color: transparent;" type="button">Check Temperature and Humidity</button></a>
+              </div>
+          </div>
+      </div>
+
+          <div class = "row"> 
+              <div class = "column" style="background-color: #9e4033">
+                  <div class = "column-title">
+                      <a href="/"><button style="background-color: transparent;" type="button">Turn ON heat</button></a>
+                  </div>
+  
+              </div>
+  
+              <div class = "column" style="background-color: #9e4033">
+                  <div class = "column-title">
+                      <a href="/"><button style="background-color: transparent;" type="button">Turn OFF heat</button></a>
+                  </div>
+              </div>
+
+
+
+              <div class = "row"> 
+                  <div class = "column" style="background-color: #2950ff">
+                      <div class = "column-title">
+                          <a href="/"><button style="background-color: transparent;" type="button">Turn ON <b>Auto heat</b></button></a>
+                      </div>
+      
+                  </div>
+      
+                  <div class = "column" style="background-color: #2950ff">
+                      <div class = "column-title">
+                          <a href="/"><button style="background-color: transparent;" type="button">Turn OFF <b>Auto heat</b></button></a>
+                      </div>
+                  </div>
+
+
+                  <div class = "row"> 
+                      <div class = "column" style="background-color: #c9c9c9">
+                          <div class = "column-title">
+                              <a href="/"><button style="background-color: transparent;" type="button">Turn ON LED</button></a>
+                          </div>
+          
+                      </div>
+          
+                      <div class = "column" style="background-color: #c9c9c9">
+                          <div class = "column-title">
+                              <a href="/"><button style="background-color: transparent;" type="button">Turn OFF LED</button></a>
+                          </div>
+                      </div>
+
+                      <div class = "row"> 
+                          <div class = "column" style="background-color: #ffbfdf">
+                              <div class = "column-title">
+                                  <a href="/"><button style="background-color: transparent;" type="button">Turn ON <b>Auto LED</b></button></a>
+                              </div>
+              
+                          </div>
+              
+                          <div class = "column" style="background-color: #ffbfdf">
+                              <div class = "column-title">
+                                  <a href="/"><button style="background-color: transparent;" type="button">Turn OFF <b>Auto LED</b></button></a>
+                              </div>
+                          </div>
+
+
+
+
+
+
+<!---- ( <a href="/"><button>T</button></a> ) --> 
+</div>
+</section>
+
+<!-- footer section ?
+<section> 
+</section> -->   
+
+
+
+
+  <script> 
 
 
     setInterval(()=>{
-      fetch(`/sensor2`).then((resp) => {
+      fetch(`/humidity_sensor_reading`).then((resp) => {
             return resp.json()
           }).then(function(response) {
-              document.getElementById('test').innerHTML =response.text;
+              document.getElementById('humidity').innerHTML = `${Math.round(response.text)}%`
           })
-    }, 1000);
+    }, 5000);
   </script>
 
 </body>

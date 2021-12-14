@@ -24,7 +24,7 @@ def loop():
         print(humidity)
         #print(max(values)) prints nonconverted soil humidity
         #print(PIN) prints out pin7 which connects to the relay controlling the pump
-        if (humidity)<33:
+        if (humidity)<10:
             GPIO.output(PIN, GPIO.HIGH)
             print("ON")
             time.sleep(0.1)
