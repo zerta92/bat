@@ -6,14 +6,15 @@ sys.path.insert(0,'/home/pi/pmcs')
 
 from water2 import get_reading, GPIO, PIN, setup, destroy
 from time import sleep
+import datetime
 
-DUTY_CYCLE = 10
+DUTY_CYCLE = 2
 SAMPLETIME = 1
 
 TARGET = 50
-KP = 1#0.0002
-KD =0#0.0019
-KI = 0#0.005
+KP = 1
+KD =0#0.002
+KI = 0#0.0003
 e1_prev_error = 0
 e1_sum_error = 0
 
@@ -21,6 +22,13 @@ counter = 0
 humidity_new = 1.0
 time_on = 0
 
+def setLastWatered():
+    now = datetime.datetime.now()
+    timeString = str(now.hour)+':'+str(now.minute)
+    with open('last_watered.txt', 'w') as f:
+        last_watered_time = timeString
+        f.write(last_watered_time+'\n')
+        f.close()
 
 def get_time_on(humidity_new, counter):
     percentage = max(min(humidity_new, 100),0)/100
@@ -35,6 +43,9 @@ def setRelayStatus(time_on, counter):
         GPIO.output(PIN, GPIO.LOW)
     if counter < time_on:
         GPIO.output(PIN, GPIO.HIGH)
+        setLastWatered()
+       
+
    
     
 
@@ -54,6 +65,10 @@ def start(humidity_new, e1_sum_error, e1_prev_error, counter, time_on):
             print("humidity process var {} ".format(humidity_new))
             counter = 0
             time_on = get_time_on(humidity_new, counter)
+            with open('data.txt', 'a') as f:
+                textdata = str(humidity)
+                f.write(textdata+'\n')
+                f.close()
 
         print('----------- {}'.format(counter))
         setRelayStatus(time_on, counter)
