@@ -1,6 +1,5 @@
 import RPi.GPIO as GPIO
 import time
-import Adafruit_ADS1x15
 import math
 GAIN = 1;
 PIN = 11;
