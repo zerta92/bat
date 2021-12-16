@@ -7,6 +7,10 @@ import os
 import cv2
 import picamera
 import time
+import sys
+# sys.path.insert(0,'/home/pi/pmcs/control')
+# import humidity_pid
+
 from templates.camstream import takePic
 
 # vc = cv2.VideoCapture(0) 
@@ -14,13 +18,17 @@ from templates.camstream import takePic
 
 app = Flask(__name__)
 
-def template(title = "PMSC", text = ""):
+def template(title = "PMCS", auto_watering_status = "", text=""):
+    go_to_pmcs()
     now = datetime.datetime.now()
-    timeString = now
+    timeString = str(now.hour)+':'+str(now.minute)
+    with open('control/last_watered.txt') as f:
+        last_watered = f.read()
     templateDate = {
         'title' : title,
         'time' : timeString,
-        'text' : text
+        'text' : last_watered,
+        'auto_watering_status': auto_watering_status
         }
     return templateDate
 
@@ -55,8 +63,6 @@ def action():
 @app.route("/humidity_sensor_reading")
 def get_reading():
     reading = water2.get_reading()
-    #templateData = template(text = reading)
-    #return render_template('main.html', **templateData)
     humidity = -.009*reading + 206.4
     templateData = {'text' : humidity}
     return jsonify(templateData), 200
@@ -67,25 +73,56 @@ def action2():
     templateData = template(text = "Watered Once")
     return render_template('main.html', **templateData)
 
+def go_to_control():
+    current_path = os.getcwd()
+    if current_path == "/home/pi/pmcs":
+        os.chdir('control')
+
+def go_to_pmcs():
+    current_path = os.getcwd()
+    if current_path != "/home/pi/pmcs":
+        os.chdir('..')
+
 @app.route("/auto/water/<toggle>")
 def auto_water(toggle):
+    go_to_control()
     running = False
     if toggle == "ON":
-        templateData = template(text = "Auto Watering On")
+        templateData = template(auto_watering_status = "ON")
+        go_to_control()
         for process in psutil.process_iter():
             try:
-                if process.cmdline()[1] == 'auto_water.py':
-                    templateData = template(text = "Already running")
+                if process.cmdline()[1] == 'humidity_pid.py':
+                    templateData = template(auto_watering_status = "Already running")
                     running = True
             except:
                 pass
         if not running:
-            os.system("python3.4 auto_water.py&")
+            go_to_control()
+            os.system("python3 humidity_pid.py&")
     else:
-        templateData = template(text = "Auto Watering Off")
-        os.system("pkill -f water.py")
+        templateData = template(auto_watering_status = "OFF")
+        go_to_control()
+        os.system("sudo pkill -f humidity_pid.py")
 
     return render_template('main.html', **templateData)
+
+# @app.route("/auto/water/<toggle>")
+# def auto_water(toggle):
+#     if toggle == "ON":
+#         templateData = template(auto_watering_status = "Auto Watering On")
+#         # try:
+#         humidity_pid.run_main()
+
+#         # except:
+#         #     pass   
+
+#     else:
+#         templateData = template(auto_watering_status = "Auto Watering Off")
+#         humidity_pid.stop()
+
+#     print("deez nutz")
+#     return render_template('main.html', **templateData)
 
 def gen(): 
    """Video streaming generator function.""" 

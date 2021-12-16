@@ -165,6 +165,17 @@
     overflow: hidden;       
 } 
 
+.rectangle {
+  height: 250px;
+  width: 600px;
+  color:rgb(0, 0, 0);
+  background-color: rgb(235, 235, 235);
+  border-radius:7px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
+}
+
 </style>
     <!-- Top header menu containing
         logo and Navigation bar -->
@@ -172,7 +183,7 @@
              
           <!-- Logo -->
           <div id="logo">
-              <img src="static/BATlogo.png" width = "250" height = "130">
+              <img src="/static/BATlogo.png" width = "250" height = "130">
             </div> 
                    
           <!-- Navigation Menu -->
@@ -186,7 +197,22 @@
             </div>
           </nav>
       </div>   
+   <!-- Stream example Header to contain a white rectangle to display data -->
+
+   <div class="rectangle" style=" display: inline-block;"> 
+    <div style=" display: inline-block;">Soil Humidity: <span id='humidity' style="color: red;">0</span></div>
+    <div >
+        The date and time on the server is: {{ time }}
+    </div>
+    <div >
+        The last time watered is {{ text }} 
+    </div>
+    <div >
+        Auto Watering {{ auto_watering_status }} 
+    </div>
    
+  </div>
+
       <!-- Stream example Header to contain an Image (for now) and
           a sample text over that image 
       <div id="header-image-menu">
@@ -200,9 +226,7 @@
 <body>
   <section>
     <div id = "welcome">
-        <h1 class = "title1">POTHOS</h1>
-        <h2 class = "title2">The date and time on the server is: {{ time }}</h2>
-        <h2 class = "title3">The last time watered is {{ text }} </h2>
+        <h1 class = "title1">"Pothos" Control Pad</h1>
     </div> 
   </section>
 
@@ -225,16 +249,6 @@
             </div>
             <br> 
         </div>        
-  <!-- <a href="/auto/water/ON"><button>Turn ON Auto Watering</button></a>
-  <a href="/auto/water/OFF"><button>Turn OFF Auto Watering</button></a>
-  <a href="/sensor"><button>Check Soil Status</button></a> <br>
-  <a href="/sensor2"><button>Soil Reading</button></a>  
-  <a href="/water"><button>Water Once</button></a>
-  <a href="/last_watered"><button>Check Time Last Watered</button></a>
-  soil humidity reading: <div id='test'>0</div><br>
-  
--->
-<div id='humidity' style="color: red;">0</div>
 
 <div class = "row"> 
   <div class = "column" style="background-color: #efbbff">
@@ -265,21 +279,6 @@
           </div>
       </div>
 
-
-      <div class = "row"> 
-          <div class = "column" style="background-color: #cead42">
-              <div class = "column-title">
-                  <a href="/last_watered"><button style="background-color: transparent;" type="button">Check Time Last Watered</button></a>
-              </div>
-
-          </div>
-
-          <div class = "column" style="background-color: #e3ffa2">
-              <div class = "column-title">
-                  <a href="/"><button style="background-color: transparent;" type="button">Check Temperature and Humidity</button></a>
-              </div>
-          </div>
-      </div>
 
           <div class = "row"> 
               <div class = "column" style="background-color: #9e4033">

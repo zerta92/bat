@@ -22,6 +22,9 @@ counter = 0
 humidity_new = 1.0
 time_on = 0
 
+global run 
+run = False
+
 def setLastWatered():
     now = datetime.datetime.now()
     timeString = str(now.hour)+':'+str(now.minute)
@@ -50,7 +53,7 @@ def setRelayStatus(time_on, counter):
     
 
 def start(humidity_new, e1_sum_error, e1_prev_error, counter, time_on):
-    while True:
+    while run:
         raw = get_reading()
         humidity = -.009*raw + 206.4
         humidity_error = TARGET - humidity
@@ -77,10 +80,19 @@ def start(humidity_new, e1_sum_error, e1_prev_error, counter, time_on):
         e1_prev_error = humidity_error
         e1_sum_error += humidity_error
 
+def stop():
+    global run 
+    run= False
+    destroy()
 
-if __name__ == '__main__':
+# if __name__ == '__main__':
+def run_main():
     setup()
     try:
+        global run
+        run = True
         start(humidity_new, e1_sum_error, e1_prev_error, counter, time_on)
+        return
     except KeyboardInterrupt:
         destroy()
+run_main()
