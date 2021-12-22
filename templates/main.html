@@ -2,202 +2,11 @@
 <head>
   <title>{{ title }}</title>
   <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
-  <style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    /* {
-        box-sizing: border-box;
-    } */
-
-    header{
-        overflow: hidden;
-    }
-
-    #top-header{
-        text-align: center;
-        height: 60 px;
-    }
-
-    #logo{
-        float: left;
-        padding: none;
-        margin: none;
-        height: 60 px;
-        width: 30%
-    }
-
-    #logo img{
-        width: 60%;
-        float: left;
-        padding: 10 px 0 px;
-    }
-
-    /***************************/
-/* Styling Navigation Menu */
-/***************************/
-#menu{
-    float: right;
-    width: 70%;
-    height: 100%;
-    margin: none;
-}
-     
-#menu ul{
-    text-align: center;
-    float: right;
-    margin: none;
-    background: #6be4b5;
-}
-     
-#menu li{
-    display: inline-block;
-    padding: none;
-    margin: none;
-}
-     
-#menu li a, #menu li span{
-    display: inline-block;
-    padding: 0em 1.5em;
-    text-decoration: none;
-    font-weight: 600;
-    text-transform: uppercase;
-    line-height: 60px;
-}
-     
-#menu li a{
-         
-    color: #FFF;
-}
-     
-#menu li:hover a, #menu li span{
-    background: #FFF;
-    color: #0074D9;
-    border-left: 1px solid #0074D9;
-    text-decoration: none;
-}
-
-    #header-image-menu {
-        top: 10 px;
-        position: relative;
-    }
-
-    #header-image-menu img{
-        width: 100%;
-        margin: none;
-        padding: none;
-    }
-
-    #image-text{
-        position: absolute;
-        top: 60%;
-        left: 60%;
-        font-family: 'Roboto';
-        color: #000;
-        transform: translate(-30%, -30%);
-        text-align: center;
-    }
-
-    /**********************************/
-/* Styling Main content Section 1 */
-/**********************************/
-#welcome
-{   overflow: hidden;
-    width: 1000px;
-    margin: 0px auto;
-
-}
-         
-#welcome .title1{
-  position:relative;
-  /*as px increases text moves left as px decreases text moves right*/
-  
-  right:224px;
-  text-align:center;
-
-  
-
-}
-
-    #welcome .title2 {
-        position:relative;
-        left:60px;/*as px increases text moves right as px decreases text moves left*/
-      
-    }
-    #welcome .title3 {
-      position:relative;
-      left:110px;
-    }
- 
-#welcome p{
-    margin-bottom: 40px;
-    text-align: center;
-
-}
-
-
-.column {
-    float: left;
-    width: 50%;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    overflow:hidden;
-    align-items:center;
-    justify-content: center;
-    position: relative;
-
-
-}
-
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
-}
-
-
-
-.button {     
-    background: rgba(255, 165, 0, 0.73);
-    background-color: Transparent;
-    background-repeat:no-repeat;
-    border: none;
-    cursor:pointer;
-    overflow: hidden;       
-} 
-
-.rectangle {
-  height: 250px;
-  width: 600px;
-  color:rgb(0, 0, 0);
-  background-color: rgb(235, 235, 235);
-  border-radius:7px;
-  display: flex;
-  justify-content:center;
-  align-items: center;
-}
-
-</style>
-    <!-- Top header menu containing
-        logo and Navigation bar -->
-        <div id="top-header">
-             
-          <!-- Logo -->
-          <div id="logo">
-              <img src="/static/BATlogo.png" width = "250" height = "130">
-            </div> 
-                   
-          <!-- Navigation Menu -->
-          <nav>
-              <div id="menu">
-              <ul>
-                  <li class="active"><a href="#">Home</a></li>
-                  <li><a href="#">Pothos</a></li>
-                  <li><a href="#">Milkweed</a></li>
-              </ul>
-            </div>
-          </nav>
-      </div>   
-   <!-- Stream example Header to contain a white rectangle to display data -->
+   
+    <!-- INCLUDE FOR EVERY NEW PAGE along with stylesheet import above-->
+    {% include 'header.html' %} 
 
    <div class="rectangle" style=" display: inline-block;"> 
     <div style=" display: inline-block;">Soil Humidity: <span id='humidity' style="color: red;">0</span></div>
@@ -212,7 +21,7 @@
         The last time watered is {{ text }} 
     </div>
     <div >
-        Auto Watering {{ auto_watering_status }} 
+        Auto Watering mode: {{ auto_watering_status }} 
     </div>
    
   </div>
@@ -272,7 +81,7 @@
   <div class = "row"> 
       <div class = "column" style="background-color: #FFB695">
           <div class = "column-title">
-              <a href="/sensor"><button style="background-color: transparent;" type="button">Check Soil Status</button></a> 
+              <a href="/sensor"><button style="background-color: transparent;" type="button">Change display</button></a> 
           </div>
 
       </div>
@@ -316,30 +125,30 @@
 
 
                   <div class = "row"> 
-                      <div class = "column" style="background-color: #c9c9c9">
+                      <div class = "column" style="background-color: rgb(255, 189, 222)">
                           <div class = "column-title">
-                              <a href="/"><button style="background-color: transparent;" type="button">Turn ON LED</button></a>
+                              <a href="/"><button style="background-color: transparent;" type="button">Turn on light low</button></a>
                           </div>
           
                       </div>
           
-                      <div class = "column" style="background-color: #c9c9c9">
+                      <div class = "column" style="background-color: rgb(255, 189, 222)">
                           <div class = "column-title">
-                              <a href="/"><button style="background-color: transparent;" type="button">Turn OFF LED</button></a>
+                              <a href="/"><button style="background-color: transparent;" type="button">Turn on light medium</button></a>
                           </div>
                       </div>
 
                       <div class = "row"> 
-                          <div class = "column" style="background-color: #ffbfdf">
+                          <div class = "column" style="background-color: rgb(255, 189, 222)">
                               <div class = "column-title">
-                                  <a href="/"><button style="background-color: transparent;" type="button">Turn ON <b>Auto LED</b></button></a>
+                                  <a href="/"><button style="background-color: transparent;" type="button">Turn on light high </button></a>
                               </div>
               
                           </div>
               
                           <div class = "column" style="background-color: #ffbfdf">
                               <div class = "column-title">
-                                  <a href="/"><button style="background-color: transparent;" type="button">Turn OFF <b>Auto LED</b></button></a>
+                                  <a href="/"><button style="background-color: transparent;" type="button">Turn OFF LED </button></a>
                               </div>
                           </div>
 
