@@ -201,6 +201,10 @@
 
    <div class="rectangle" style=" display: inline-block;"> 
     <div style=" display: inline-block;">Soil Humidity: <span id='humidity' style="color: red;">0</span></div>
+    <div style=" display: inline-block;">Temperature: <span id='temperature' style="color: rgb(255, 94, 0);">0</span></div>
+    <div style=" display: inline-block;">Tank Humidity: <span id='tank_humidity' style="color: rgb(255, 208, 0);">0</span></div>
+   
+   
     <div >
         The date and time on the server is: {{ time }}
     </div>
@@ -362,9 +366,23 @@
       fetch(`/humidity_sensor_reading`).then((resp) => {
             return resp.json()
           }).then(function(response) {
-              document.getElementById('humidity').innerHTML = `${Math.round(response.text)}%`
+              document.getElementById('humidity').innerHTML = `${Math.round(response.soil_hum)}%`
+          })
+
+          fetch(`/get_temperature`).then((resp) => {
+            return resp.json()
+          }).then(function(response) {
+              document.getElementById('temperature').innerHTML = `${Math.round(response.temp)} Fahrenheit`
+          })
+
+          fetch(`/get_humidity`).then((resp) => {
+            return resp.json()
+          }).then(function(response) {
+              document.getElementById('tank_humidity').innerHTML = `${Math.round(response.hum)}%`
           })
     }, 5000);
+
+
   </script>
 
 </body>

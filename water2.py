@@ -4,7 +4,7 @@ import Adafruit_ADS1x15
 import math
 adc =Adafruit_ADS1x15.ADS1115(address = 0x48, busnum=1)
 GAIN = 1;
-PIN = 7;
+PIN = 11;
 
 def setup():
     GPIO.setmode(GPIO.BOARD)
@@ -22,27 +22,34 @@ def turn_pump_off():
     GPIO.output(PIN, GPIO.LOW)
 
 # This has been replaced by humidity_pid.py
-# values = [0]*100
-# def loop():
-#     while True:
-#         for i in range(100):
-#             values[i] = adc.read_adc(0, gain = GAIN)
-#         humidity = round(-.009*max(values) + 206.4)
-#         print(humidity)
-#         #print(max(values)) prints nonconverted soil humidity
-#         #print(PIN) prints out pin7 which connects to the relay controlling the pump
-#         if (humidity)<10:
-#             GPIO.output(PIN, GPIO.HIGH)
-#             print("ON")
-#             time.sleep(0.1)
-#         else:
-#             GPIO.output(PIN, GPIO.LOW)
-#             print("OFF")
-#             time.sleep(0.1)
+values = [0]*100
+def loop():
+    while True:
+        for i in range(100):
+            values[i] = adc.read_adc(0, gain = GAIN)
+        humidity = round(-.009*max(values) + 206.4)
+        print(humidity)
+        #print(max(values)) prints nonconverted soil humidity
+        #print(PIN) prints out pin7 which connects to the relay controlling the pump
+        if (humidity)<10:
+            GPIO.output(PIN, GPIO.HIGH)
+            print("ON")
+            time.sleep(0.1)
+        else:
+            GPIO.output(PIN, GPIO.LOW)
+            print("OFF")
+            time.sleep(0.1)
             
 def destroy():
     GPIO.output(PIN, GPIO.HIGH)
     GPIO.cleanup()
+
+def get_last_watered():
+    try:
+        f = open("last_watered.txt", "r")
+        return f.readline()
+    except:
+        return "NEVER!"
     
 if __name__ == '__main__':
     setup()

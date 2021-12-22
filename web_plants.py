@@ -1,8 +1,8 @@
 from flask import Flask, render_template, redirect, url_for, jsonify, Response
 import psutil
 import datetime
-import water
 import water2
+import temp2
 import os
 import cv2
 import picamera
@@ -37,6 +37,17 @@ def hello():
     templateData = template()
     return render_template('main.html', **templateData)
 
+# @app.route("/temp2")
+# def displayTemp():
+#     temperature = temp2.get_temp_reading
+#     templateData = {'text' : temperature}
+#     return jsonify(templateData), 200
+
+# def displayHumi():
+#     humidity = temp2.get_humi_reading
+#     templateData = {'text' : humidity}
+#     return jsonify(templateData), 200
+
 @app.route("/camera")
 def cameraPage():
     templateData = template()
@@ -44,7 +55,7 @@ def cameraPage():
 
 @app.route("/last_watered")
 def check_last_watered():
-    templateData = template(text = water.get_last_watered())
+    templateData = template(text = water2.get_last_watered())
     return render_template('main.html', **templateData)
 
 @app.route("/sensor")
@@ -64,12 +75,26 @@ def action():
 def get_reading():
     reading = water2.get_reading()
     humidity = -.009*reading + 206.4
-    templateData = {'text' : humidity}
-    return jsonify(templateData), 200
+    return jsonify({'soil_hum' : humidity}), 200
+
+@app.route("/get_temperature")
+def get_temp_reading():
+    reading = temp2.get_temp_reading()
+    temperature = reading
+ #temp var is to cross communicate using jsonifi
+    return jsonify({'temp' : temperature}), 200
+
+@app.route("/get_humidity")
+def get_humi_reading():
+    reading = temp2.get_humi_reading()
+    humidity = reading
+    return jsonify({'hum' : humidity}), 200
+
+
 
 @app.route("/water")
 def action2():
-    water.pump_on()
+    water2.pump_on()
     templateData = template(text = "Watered Once")
     return render_template('main.html', **templateData)
 
