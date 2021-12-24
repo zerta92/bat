@@ -98,14 +98,8 @@
 }
          
 #welcome .title1{
-  position:relative;
-  /*as px increases text moves left as px decreases text moves right*/
-  
-  right:224px;
+  position: relative;
   text-align:center;
-
-  
-
 }
 
     #welcome .title2 {

@@ -21,7 +21,7 @@
         The last time watered is {{ text }} 
     </div>
     <div >
-        Auto Watering mode: {{ auto_watering_status }} 
+        Auto Watering mode: <span id='auto_water_status'></span>
     </div>
    
   </div>
@@ -66,14 +66,14 @@
 <div class = "row"> 
   <div class = "column" style="background-color: #efbbff">
       <div class = "column-title">
-          <a href="/auto/water/ON"><button style="background-color: transparent;" type="button">Turn ON <b>Auto Watering</b></button></a>
+          <a onclick="toggleAutoWater('ON')"><button style="background-color: transparent;" type="button">Turn ON <b>Auto Watering</b></button></a>
       </div>
 
   </div>
 
   <div class = "column" style="background-color: #efbbff">
       <div class = "column-title">
-          <a href="/auto/water/OFF"><button style="background-color: transparent;" type="button">Turn OFF <b>Auto Watering</b></button></a>
+          <a onclick="toggleAutoWater('OFF')"><button style="background-color: transparent;" type="button">Turn OFF <b>Auto Watering</b></button></a>
       </div>
   </div>
 
@@ -170,6 +170,15 @@
 
   <script> 
 
+// How to display JavaScript variable value in HTML
+//below is a way to turn on and off auto water without refreshing the page w each click
+    async function toggleAutoWater(on_or_off){ 
+        const status_response =  await fetch(`/auto/water/${on_or_off}`)
+        const status_json =  await status_response.json()
+
+        document.getElementById('auto_water_status').innerHTML = status_json.message
+
+    }
 
     setInterval(()=>{
       fetch(`/humidity_sensor_reading`).then((resp) => {
