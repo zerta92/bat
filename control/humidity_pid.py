@@ -11,9 +11,9 @@ import datetime
 #Constants
 DUTY_CYCLE = 10 #Max length of time pump can be on
 SAMPLETIME = 1
-TARGET = 50 
-KP = .2
-KD =0
+TARGET = 95
+KP = 12
+KD = 1
 KI = 0.025
 #PID variables
 global e1_prev_error
@@ -26,6 +26,8 @@ global humidity_control_variable_previous #PID output of previous cycle
 humidity_control_variable_previous = 0.0
 global time_on #How long the pump will stay on
 time_on = 0
+global samples #Sample, taken every second 
+samples = 0
 
 global run 
 run = False
@@ -44,7 +46,7 @@ def get_time_on(humidity_control_variable,humidity_control_variable_previous):
         return 0 
     percent_diff = (humidity_control_variable - humidity_control_variable_previous )/ abs(humidity_control_variable_previous)
     print("percent_diff 1: {} ".format(percent_diff))
-    if percent_diff <= 0:
+    if percent_diff <= 0 or percent_diff<.01:
         return 0
     percent_diff = max(min(percent_diff, 1),0)
     time_on = max(DUTY_CYCLE * percent_diff,1)#turn on at least minimum 1 second
@@ -83,21 +85,26 @@ def start():
         global e1_sum_error
         global e1_prev_error
         global time_on
+        global samples
+        samples += 1
         raw = get_reading()
         humidity = -.009*raw + 206.4
         humidity_error = TARGET - humidity
         humidity_control_variable_previous = humidity_control_variable
         humidity_control_variable += (humidity_error * KP) + (e1_prev_error * KD) + (e1_sum_error * KI)
         print("humidity  {} ".format(humidity))
-        print("humidity control var {} ".format(humidity_control_variable))
+        print("target humidity  {} ".format(TARGET))
+
         print("humidity_control_variable prev{} ".format(humidity_control_variable_previous))
+        print("humidity control var {} ".format(humidity_control_variable))
         time_on = get_time_on(humidity_control_variable, humidity_control_variable_previous)
         with open('data.txt', 'a') as f:
             textdata = str(humidity)
             f.write(textdata+'\n')
             f.close()
  
-        setRelayStatus(time_on)
+        if samples > 5: # wait to cycle 5 times so we dont get a huge spike at the beginning (turns on 10 seconds if under target humidity)
+            setRelayStatus(time_on)
   
         sleep(SAMPLETIME)
         e1_prev_error = humidity_error

@@ -9,7 +9,8 @@
     {% include 'header.html' %} 
 
    <div class="rectangle" style=" display: inline-block;"> 
-    <div style=" display: inline-block;">Soil Humidity: <span id='humidity' style="color: red;">0</span></div>
+    <div style=" display: inline-block;">Soil Humidity: <span id='humidity' style="color: red;">0</span> </div>
+    <div style=" display: inline-block;">Set Target Humidity: <span id='target_humidity' style="color: rgb(216, 0, 83);">0</span> </div>
     <div style=" display: inline-block;">Temperature: <span id='temperature' style="color: rgb(255, 94, 0);">0</span></div>
     <div style=" display: inline-block;">Tank Humidity: <span id='tank_humidity' style="color: rgb(255, 208, 0);">0</span></div>
    
@@ -57,7 +58,7 @@
           <div class = "column" style="background-color: #95fff6">
             <div class = "column-title">
                 <div class = "button">
-                    <a href="/"><button style="background-color: transparent;" type="button">Open Camera Library</button></a>
+                    <a href="/camera_library"><button style="background-color: transparent;" type="button">Open Camera Library</button></a>
                 </div>
             </div>
             <br> 
@@ -81,7 +82,7 @@
   <div class = "row"> 
       <div class = "column" style="background-color: #FFB695">
           <div class = "column-title">
-              <a href="/sensor"><button style="background-color: transparent;" type="button">Change display</button></a> 
+              <a href="/lcd"><button style="background-color: transparent;" type="button">LCD ON</button></a> 
           </div>
 
       </div>
@@ -186,6 +187,12 @@
           }).then(function(response) {
               document.getElementById('humidity').innerHTML = `${Math.round(response.soil_hum)}%`
           })
+
+        //   fetch(`/get_humidity_target_reading`).then((resp) => {
+        //     return resp.json()
+        //   }).then(function(response) {
+        //       document.getElementById('target_humidity').innerHTML = `${Math.round(response.target_soil_hum)}%`
+        //   })
 
           fetch(`/get_temperature`).then((resp) => {
             return resp.json()

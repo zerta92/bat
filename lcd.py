@@ -11,7 +11,7 @@ def setup():
     LCD.init(0x27, 1)  # init(slave address, background light)
 
 
-def loop():
+def displayTempHumi():
     while True:
         temp = get_temp_reading()  # read temperature sensor value
         temp = round(temp, 1)
@@ -20,9 +20,9 @@ def loop():
         LCD.write(0, 1, 'Humidity: {} %'.format(humidity))  # write to top row and farthest left column of LCD
         time.sleep(1)  # update every second
 
-# if __name__ == '__main__':
-try:
-    setup()
-    loop()
-except KeyboardInterrupt:
-    pass
+if __name__ == '__main__':
+    try:
+        setup()
+        displayTempHumi()
+    except KeyboardInterrupt:
+        pass

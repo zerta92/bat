@@ -3,9 +3,10 @@ import psutil
 import datetime
 import os
 from templates.camstream import takePic
-
 import water2
 import temp2
+import lcd
+
 
 
 app = Flask(__name__)
@@ -44,6 +45,12 @@ def cameraPage():
     templateData = template()
     return render_template('camera.html', **templateData)
 
+@app.route("/lcd")
+def turn_on_LCD():
+    templateData = template(text = lcd.displayTempHumi())
+    return render_template('main.html', **templateData)
+
+
 @app.route("/last_watered")
 def check_last_watered():
     templateData = template(text = water2.get_last_watered())
@@ -51,7 +58,7 @@ def check_last_watered():
 
 @app.route("/sensor")
 def action():
-    status = water.get_status()
+    status = water.get_status() 
     message = ""
     if (status == 1):
         message = "Water me please!"
@@ -66,6 +73,12 @@ def get_reading():
     reading = water2.get_reading()
     humidity = -.009*reading + 206.4
     return jsonify({'soil_hum' : humidity}), 200
+
+# @app.route("/get_humidity_target_reading")
+# def get_humidity_target_reading():
+#     target_humidity = water2.get_target_humidity_reading()
+#     return jsonify({'target_soil_hum' : target_humidity}), 200
+
 
 @app.route("/get_temperature")
 def get_temp_reading():

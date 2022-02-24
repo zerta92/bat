@@ -15,6 +15,11 @@ def setup():
 def get_reading(pin=PIN):
     return adc.read_adc(0, gain = GAIN)
 
+# def get_target_humidity_reading(pin=PIN):
+#     raw_target_humidity = adc.read_adc(1, gain = GAIN)
+#     target_humidity = round(0.003*raw_target_humidity - 0.791)
+#     return target_humidity
+
 def turn_pump_on():
     GPIO.output(PIN, GPIO.HIGH)
 
