@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for, jsonify, Response
 import psutil
 import datetime
 import os
-from templates.camstream import takePic
+# from templates.camstream import takePic
 import water2
 import temp2
 import lcd
@@ -135,18 +135,18 @@ def auto_water(toggle):
 
     return jsonify({'auto_water_status':running, 'message':message})
 
-def gen(): 
-   """Video streaming generator function.""" 
-   while True: 
-        takePic()
-        yield (b'--frame\r\n' 
-              b'Content-Type: image/jpeg\r\n\r\n' + open('pic.jpeg', 'rb').read() + b'\r\n') 
+# def gen(): 
+#    """Video streaming generator function.""" 
+#    while True: 
+#         takePic()
+#         yield (b'--frame\r\n' 
+#               b'Content-Type: image/jpeg\r\n\r\n' + open('pic.jpeg', 'rb').read() + b'\r\n') 
 
-@app.route('/video_feed') 
-def video_feed(): 
-   """Video streaming route. Put this in the src attribute of an img tag.""" 
-   return Response(gen(), 
-                   mimetype='multipart/x-mixed-replace; boundary=frame') 
+# @app.route('/video_feed') 
+# def video_feed(): 
+#    """Video streaming route. Put this in the src attribute of an img tag.""" 
+#    return Response(gen(), 
+#                    mimetype='multipart/x-mixed-replace; boundary=frame') 
 
 if __name__ == "__main__":
     # os.system("python3 lcd.py&") #load lcd program
